@@ -1,27 +1,18 @@
-# NginxBaseHref
+# Angular & Nginx ベースパスがある場合のサンプル
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.10.
+https://ドメイン/app/ などベースパスととして/app/などが入る場合のサンプル
 
-## Development server
+- `angular.json` で `"baseHref": "/app/"` を追加
+  - これで/appとして全体が動くようになる
+- 過去のバージョンだと、 `angular.json` に `"deployUrl": "/app/"` が必要みたい
+  - jsファイルのパスに/app/がつかなかったので、deployUrlを入れると付くようになる
+- Nginx のルート配下に /app/index.html などなるように配置する
+  - app無しの/index.htmlになるようにしても、画面表示自体はできたが、jsファイルの読み込みのパスが解決出来ず
+  - jsファイルのレスポンスで、index.htmlが帰ってきている状態
+  - これは、Nginxの方で/app/runtime.js などが見つけられないため、try_filesの定義通り、最終的なindex.htmlが返されることになっている
+    - `try_files $uri $uri/ /index.html`;
+  - これをこのままの配置方法で解決する方法はありそうだが、リダイレクトやら何やらでやらないと出来ない気がするのでやめた
+  - パスどおりに、Nginxのドキュメント配下がなるようにすれば、すっきり解決出来るので、配置のパスを変更した
+    - `angular.json` の `"outputPath: "./dist/app"` で、配置パスの変更が出来る。
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

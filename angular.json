@@ -55,7 +55,9 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "outputPath": "./dist/app/",
+              "baseHref": "/app/"
             }
           },
           "defaultConfiguration": "production"
@@ -97,5 +99,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

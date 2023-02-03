@@ -1,0 +1,10 @@
+services:
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - "./dist:/usr/share/nginx/html"
+      - "./server/default.conf:/etc/nginx/conf.d/default.conf"
+    environment:
+      TZ: "Asia/Tokyo"
